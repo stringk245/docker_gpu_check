@@ -1,0 +1,1 @@
+docker build -t registry.cn-shenzhen.aliyuncs.com/stringk_python/docker-gpu-check:v1 . && docker push registry.cn-shenzhen.aliyuncs.com/stringk_python/docker-gpu-check:v1

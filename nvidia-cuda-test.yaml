@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nvidia-cuda-pod
+spec:
+  containers:
+    - name: nvidia-cuda-pod
+      image: nvidia/cuda:10.0-base
+      command: ["nvidia-smi"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1

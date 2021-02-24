@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: 'docker-gpu-check'
+  namespace: 'default'
+  labels:
+    name: 'docker-gpu-check'
+#  annotations:
+#    eks.tke.cloud.tencent.com/gpu-count: "1"
+#    eks.tke.cloud.tencent.com/gpu-type: 'V100'
+#    eks.tke.cloud.tencent.com/cpu: "8"
+#    eks.tke.cloud.tencent.com/mem: 40Gi
+spec:
+  containers:
+      image: 'registry.cn-shenzhen.aliyuncs.com/stringk_python/docker-gpu-check:v1'
+      imagePullPolicy: Always
+      name: 'docker-gpu-check'
+      resources:
+        limits:
+#          cpu: "8"
+#          memory: 40Gi
+          nvidia.com/gpu: "1"
+  imagePullSecrets:
+    - name: 'testsl' # 这里需要k8s配置 访问docker镜像仓库的访问凭证
+    #nodeSelector:
+    #train: 'true'
+  restartPolicy: OnFailure
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: 'docker-gpu-check'
+  namespace: 'default'
+spec:
+  ports:
+    - port: 40000
+      protocol: TCP
+      targetPort: 40000
+      #nodePort: 40000
+  selector:
+    name: 'docker-gpu-check'
+  #type: NodePort
